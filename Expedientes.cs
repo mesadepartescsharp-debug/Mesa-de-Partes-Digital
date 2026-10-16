@@ -171,6 +171,21 @@ namespace Avances
             Console.ReadKey();
         }
 
+        // El código no puede depender de la posición en el arreglo: tras ordenar con
+        // burbuja, o si una línea del archivo no se pudo cargar, la posición deja de
+        // coincidir con la numeración. Se continúa desde el mayor número ya usado.
+        static string GenerarCodigoExpediente()
+        {
+            int mayor = 0;
+            for (int i = 0; i < cantidad; i++)
+            {
+                if (string.IsNullOrEmpty(codigos[i]) || !codigos[i].StartsWith("EXP-")) continue;
+                int n;
+                if (int.TryParse(codigos[i].Substring(4), out n) && n > mayor) mayor = n;
+            }
+            return "EXP-" + (mayor + 1).ToString("D4");
+        }
+
         internal static void RegistrarExpediente()
         {
             if (usuarioActual < 0)
@@ -205,7 +220,7 @@ namespace Avances
             RegistrarMedios(cantidad, especialidades[cantidad]);
             RevisarMedios(cantidad);
 
-            string codigoTemp = "EXP-" + (cantidad + 1).ToString("D4");
+            string codigoTemp = GenerarCodigoExpediente();
             string juezTemp = especialidades[cantidad] == "PENAL" ? "Dr. Carlos Mendoza Rojas" : "Dra. Patricia Salazar Torres";
             string fechaTemp = DateTime.Now.ToString("dd/MM/yyyy");
             string horaTemp = DateTime.Now.ToString("HH:mm");
