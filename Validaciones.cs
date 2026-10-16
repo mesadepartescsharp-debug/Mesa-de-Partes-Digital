@@ -57,7 +57,7 @@ namespace Avances
         internal static bool ValidarCorreo(string c)
         {
             c = c.Trim();
-            if (c == "" || !c.Contains("@") || !c.Contains(".") || c.Contains(" "))
+            if (c == "" || !c.Contains("@") || !c.Contains(".") || c.Contains(" ") || c.Contains("|"))
             {
                 Console.WriteLine("ERROR: Correo inválido.");
                 return false;
@@ -71,7 +71,7 @@ namespace Avances
                 Console.WriteLine("ERROR: Descripción mínima 10 caracteres.");
                 return false;
             }
-            return true;
+            return SinSeparador(d);
         }
         internal static bool ValidarTipoDocumento(string o)
         {
@@ -96,6 +96,16 @@ namespace Avances
             if (c.Length < 6)
             {
                 Console.WriteLine("ERROR: Mínimo 6 caracteres.");
+                return false;
+            }
+            return SinSeparador(c);
+        }
+        // '|' separa los campos en los .txt; si se escribe en un dato, la línea no vuelve a cargarse.
+        static bool SinSeparador(string s)
+        {
+            if (s.Contains("|"))
+            {
+                Console.WriteLine("ERROR: No se permite el carácter '|'.");
                 return false;
             }
             return true;

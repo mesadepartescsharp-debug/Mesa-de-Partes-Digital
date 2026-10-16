@@ -221,7 +221,7 @@ namespace Avances
             RevisarMedios(cantidad);
 
             string codigoTemp = GenerarCodigoExpediente();
-            string juezTemp = especialidades[cantidad] == "PENAL" ? "Dr. Carlos Mendoza Rojas" : "Dra. Patricia Salazar Torres";
+            string juezTemp = juecesNombres[Array.IndexOf(juecesEspecialidades, especialidades[cantidad])];
             string fechaTemp = DateTime.Now.ToString("dd/MM/yyyy");
             string horaTemp = DateTime.Now.ToString("HH:mm");
 
@@ -238,9 +238,23 @@ namespace Avances
                 return;
             }
 
-            documentos[cantidad] = Persistencia.CopiarAdjunto(documentos[cantidad], codigoTemp);
-            for (int i = 0; i < cantidadMedios[cantidad]; i++)
-                archivosMedios[cantidad, i] = Persistencia.CopiarAdjunto(archivosMedios[cantidad, i], codigoTemp);
+            try
+            {
+                documentos[cantidad] = Persistencia.CopiarAdjunto(documentos[cantidad], codigoTemp);
+                for (int i = 0; i < cantidadMedios[cantidad]; i++)
+                    archivosMedios[cantidad, i] = Persistencia.CopiarAdjunto(archivosMedios[cantidad, i], codigoTemp);
+            }
+            catch (Exception ex)
+            {
+                // Si un archivo se movió o borró tras seleccionarlo, se cancela sin dejar copias a medias.
+                string carpeta = Path.Combine(carpetaDatos, "Adjuntos", codigoTemp);
+                if (Directory.Exists(carpeta)) Directory.Delete(carpeta, true);
+                LimpiarMedios(cantidad);
+                documentos[cantidad] = descripcionDocumento[cantidad] = null;
+                Console.WriteLine("ERROR: No se pudo copiar un archivo adjunto (" + ex.Message + "). Registro cancelado.");
+                Console.ReadKey();
+                return;
+            }
             codigos[cantidad] = codigoTemp;
             jueces[cantidad] = juezTemp;
             fechasRegistro[cantidad] = fechaTemp;

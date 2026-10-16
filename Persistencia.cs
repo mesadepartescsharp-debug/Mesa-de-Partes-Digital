@@ -78,7 +78,7 @@ namespace Avances
                     if (d.Length == 0 || d[0] == "MEDIO" ||
                         (d.Length != 11 && d.Length != 15 && d.Length != 16)) continue;
                     int medios;
-                    if (!int.TryParse(d[10], out medios) || medios < 0 || medios > 3) break;
+                    if (!int.TryParse(d[10], out medios) || medios < 0 || medios > 3) continue;
                     codigos[cantidad] = d[0]; nombres[cantidad] = d[1]; dnis[cantidad] = d[2];
                     telefonos[cantidad] = d[3]; correos[cantidad] = d[4];
                     tiposDocumento[cantidad] = d[5]; especialidades[cantidad] = d[6];
