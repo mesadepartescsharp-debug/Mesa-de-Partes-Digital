@@ -1,0 +1,24 @@
+PLANTILLAS PDF A4 - MESA DE PARTES DIGITAL
+
+Lienzo PDFsharp A4: 595 x 842 puntos.
+Encabezado institucional: y=0..108 (12.8% de la altura).
+Título: y=116..166, directamente sobre el fondo blanco; SIN tarjeta blanca superpuesta.
+Bloque principal de estado: x=27, y=176, ancho=385.
+Tarjetas código/fecha: x=421, ancho=142.
+Cuerpo principal: márgenes aproximados 27-32 pt.
+Pie institucional: línea y=790; SIN QR.
+
+REGISTRADO: vino/burdeos. Incluye medios probatorios dinámicos (0 a 3 filas).
+EN REVISIÓN: azul. Título COMUNICACIÓN DE ACTUALIZACIÓN DE EXPEDIENTE.
+ATENDIDO: verde. Título COMUNICACIÓN DE ACTUALIZACIÓN DE EXPEDIENTE.
+
+Todos los datos son dinámicos: nombre, DNI, teléfono, correo, código de expediente,
+tipo de documento, especialidad, documento principal, descripción, fechas, horas,
+estado, juez asignado y medios probatorios. Ningún dato de ejemplo de las imágenes
+está fijado en las plantillas del código.
+
+Correo:
+- Remitente: se toma de la variable de entorno MESA_CORREO.
+- Contraseña de aplicación: variable MESA_CLAVE_APP.
+- Destinatario: correos[posicion], es decir, el correo del usuario propietario.
+- No se incluye ninguna contraseña en el código ni en este ZIP.

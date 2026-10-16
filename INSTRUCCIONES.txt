@@ -1,0 +1,29 @@
+MESA DE PARTES DIGITAL - Instrucciones mínimas
+==============================================
+
+REQUISITOS
+- Windows con Visual Studio (2017 o superior) y .NET Framework 4.7.2.
+
+ABRIR Y EJECUTAR
+1. Descomprima el ZIP completo en una carpeta (no ejecute desde dentro del ZIP).
+2. Abra Proyecto_MesaPartesDigital.slnx (o el .csproj si su Visual Studio no admite .slnx).
+3. Compile con F6 y ejecute con F5 o Ctrl+F5.
+   - PdfSharp.dll se toma de la carpeta lib\ (referencia relativa).
+   - Las 3 plantillas PNG de Plantillas\ se copian solas a bin\Debug\Plantillas.
+   - usuarios.txt y expedientes.txt se crean solos en bin\Debug al registrar datos.
+   - Los PDF generados quedan en bin\Debug\PDF_Generados.
+
+CONFIGURAR EL CORREO (necesario solo para enviar correos y códigos de recuperación)
+La clave de Gmail NO está en el código. Se lee de variables de entorno de Windows:
+1. En Gmail, con verificación en dos pasos activada, cree una "Contraseña de aplicación".
+2. Abra el Símbolo del sistema (cmd) y ejecute:
+      setx MESA_CORREO "su_cuenta@gmail.com"
+      setx MESA_CLAVE_APP "xxxx xxxx xxxx xxxx"
+3. CIERRE Y VUELVA A ABRIR Visual Studio (las variables nuevas solo se leen al iniciar).
+Si MESA_CORREO no existe, se usa la cuenta original del proyecto.
+Sin MESA_CLAVE_APP el programa funciona igual, pero avisa que no pudo enviar correos
+(y no podrá enviar el código de recuperación).
+
+CUENTAS DE JUEZ (sin cambios)
+- carlos.mendoza@pj.gob.pe  (PENAL)
+- patricia.salazar@pj.gob.pe (FAMILIA)
