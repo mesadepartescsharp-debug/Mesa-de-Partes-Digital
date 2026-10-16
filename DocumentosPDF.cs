@@ -11,7 +11,7 @@ namespace Avances
     {
         static string CarpetaPDF()
         {
-            string c = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PDF_Generados");
+            string c = Path.Combine(carpetaDatos, "PDF_Generados");
             if (!Directory.Exists(c)) Directory.CreateDirectory(c);
             return c;
         }

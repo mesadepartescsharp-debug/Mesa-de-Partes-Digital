@@ -1,0 +1,2 @@
+EXP-0001|Joseph Rodriguez|40240136|991234567|josephrodriguez22@gmail.com|DEMANDA|PENAL|Dr. Carlos Mendoza Rojas|Adjuntos\EXP-0001\PENAL-40240136.pdf|Denuncia penal en contra del ciudadano Jose Luis Sanchez Arias|1|40240136|16/10/2026|10:03|REGISTRADO|1
+MEDIO|IMAGEN|Adjuntos\EXP-0001\CANDIDATO.jpeg|Evidencia1

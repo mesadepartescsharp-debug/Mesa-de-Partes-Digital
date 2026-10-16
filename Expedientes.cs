@@ -238,6 +238,9 @@ namespace Avances
                 return;
             }
 
+            documentos[cantidad] = Persistencia.CopiarAdjunto(documentos[cantidad], codigoTemp);
+            for (int i = 0; i < cantidadMedios[cantidad]; i++)
+                archivosMedios[cantidad, i] = Persistencia.CopiarAdjunto(archivosMedios[cantidad, i], codigoTemp);
             codigos[cantidad] = codigoTemp;
             jueces[cantidad] = juezTemp;
             fechasRegistro[cantidad] = fechaTemp;

@@ -7,6 +7,29 @@ namespace Avances
     // TEMA 5: PERSISTENCIA DE TEXTO, ESCRITURA Y LECTURA
     internal static class Persistencia
     {
+        // Copia un adjunto a Datos\Adjuntos\<código>\ para que viaje con el proyecto.
+        internal static string CopiarAdjunto(string origen, string codigo)
+        {
+            string carpeta = Path.Combine(carpetaDatos, "Adjuntos", codigo);
+            Directory.CreateDirectory(carpeta);
+            string destino = Path.Combine(carpeta, Path.GetFileName(origen));
+            for (int n = 2; File.Exists(destino); n++)
+                destino = Path.Combine(carpeta, Path.GetFileNameWithoutExtension(origen) + "_" + n + Path.GetExtension(origen));
+            File.Copy(origen, destino);
+            return destino;
+        }
+
+        // En el .txt se guardan rutas relativas a Datos\, así funcionan en cualquier PC.
+        static string ARelativa(string ruta)
+        {
+            string prefijo = carpetaDatos + Path.DirectorySeparatorChar;
+            return ruta != null && ruta.StartsWith(prefijo, StringComparison.OrdinalIgnoreCase) ? ruta.Substring(prefijo.Length) : ruta;
+        }
+        static string AAbsoluta(string ruta)
+        {
+            return string.IsNullOrEmpty(ruta) || Path.IsPathRooted(ruta) ? ruta : Path.Combine(carpetaDatos, ruta);
+        }
+
         internal static void GuardarUsuarios()
         {
             using (var sw = new StreamWriter(archivoUsuarios, false))
@@ -36,9 +59,9 @@ namespace Avances
             using (var sw = new StreamWriter(archivoDatos, false))
                 for (int i = 0; i < cantidad; i++)
                 {
-                    sw.WriteLine($"{codigos[i]}|{nombres[i]}|{dnis[i]}|{telefonos[i]}|{correos[i]}|{tiposDocumento[i]}|{especialidades[i]}|{jueces[i]}|{documentos[i]}|{descripcionDocumento[i]}|{cantidadMedios[i]}|{propietariosDni[i]}|{fechasRegistro[i]}|{horasRegistro[i]}|{estados[i]}|{foliosDocumentos[i]}");
+                    sw.WriteLine($"{codigos[i]}|{nombres[i]}|{dnis[i]}|{telefonos[i]}|{correos[i]}|{tiposDocumento[i]}|{especialidades[i]}|{jueces[i]}|{ARelativa(documentos[i])}|{descripcionDocumento[i]}|{cantidadMedios[i]}|{propietariosDni[i]}|{fechasRegistro[i]}|{horasRegistro[i]}|{estados[i]}|{foliosDocumentos[i]}");
                     for (int j = 0; j < cantidadMedios[i]; j++)
-                        sw.WriteLine($"MEDIO|{tiposMedios[i, j]}|{archivosMedios[i, j]}|{descripcionMedios[i, j]}");
+                        sw.WriteLine($"MEDIO|{tiposMedios[i, j]}|{ARelativa(archivosMedios[i, j])}|{descripcionMedios[i, j]}");
                 }
         }
 
@@ -59,7 +82,7 @@ namespace Avances
                     codigos[cantidad] = d[0]; nombres[cantidad] = d[1]; dnis[cantidad] = d[2];
                     telefonos[cantidad] = d[3]; correos[cantidad] = d[4];
                     tiposDocumento[cantidad] = d[5]; especialidades[cantidad] = d[6];
-                    jueces[cantidad] = d[7]; documentos[cantidad] = d[8]; descripcionDocumento[cantidad] = d[9];
+                    jueces[cantidad] = d[7]; documentos[cantidad] = AAbsoluta(d[8]); descripcionDocumento[cantidad] = d[9];
                     propietariosDni[cantidad] = d.Length >= 15 ? d[11] : "";
                     fechasRegistro[cantidad] = d.Length >= 15 ? d[12] : "SIN FECHA";
                     horasRegistro[cantidad] = d.Length >= 15 ? d[13] : "--:--";
@@ -74,7 +97,7 @@ namespace Avances
                         if (medio == null) break;
                         string[] m = medio.Split('|');
                         if (m.Length != 4 || m[0] != "MEDIO") break;
-                        tiposMedios[cantidad, j] = m[1]; archivosMedios[cantidad, j] = m[2];
+                        tiposMedios[cantidad, j] = m[1]; archivosMedios[cantidad, j] = AAbsoluta(m[2]);
                         descripcionMedios[cantidad, j] = m[3]; cantidadMedios[cantidad]++;
                     }
                     cantidad++;

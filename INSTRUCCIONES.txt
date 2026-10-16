@@ -10,8 +10,8 @@ ABRIR Y EJECUTAR
 3. Compile con F6 y ejecute con F5 o Ctrl+F5.
    - PdfSharp.dll se toma de la carpeta lib\ (referencia relativa).
    - Las 3 plantillas PNG de Plantillas\ se copian solas a bin\Debug\Plantillas.
-   - usuarios.txt y expedientes.txt se crean solos en bin\Debug al registrar datos.
-   - Los PDF generados quedan en bin\Debug\PDF_Generados.
+   - Los datos se guardan en la carpeta Datos\ del proyecto (viaja con el repositorio):
+     usuarios.txt, expedientes.txt, Adjuntos\<código>\ (copia de PDF y medios) y PDF_Generados\.
 
 CONFIGURAR EL CORREO (necesario solo para enviar correos y códigos de recuperación)
 La clave de Gmail NO está en el código. Se lee de variables de entorno de Windows:

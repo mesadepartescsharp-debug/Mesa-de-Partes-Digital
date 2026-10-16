@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 
 namespace Avances
 {
@@ -32,7 +33,10 @@ namespace Avances
         internal static int cantidad = 0;
         // Encapsulamiento: lectura pública interna, modificación controlada en el registro.
         internal static int TotalExpedientes { get { return cantidad; } }
-        internal static string archivoDatos = "expedientes.txt";
+        // Carpeta Datos\ en la raíz del proyecto (junto al .csproj), no en bin\Debug,
+        // para que expedientes, usuarios, adjuntos y PDF se versionen con el proyecto.
+        internal static string carpetaDatos = BuscarCarpetaDatos();
+        internal static string archivoDatos = Path.Combine(carpetaDatos, "expedientes.txt");
 
         // Usuarios (arreglos paralelos - TEMA 4)
         internal static string[] usuariosNombres = new string[100];
@@ -44,11 +48,22 @@ namespace Avances
         internal static bool[] usuariosBloqueados = new bool[100];
         internal static int cantidadUsuarios = 0;
         internal static int usuarioActual = -1;
-        internal static string archivoUsuarios = "usuarios.txt";
+        internal static string archivoUsuarios = Path.Combine(carpetaDatos, "usuarios.txt");
         internal static string[] juecesCorreos = { "carlos.mendoza@pj.gob.pe", "patricia.salazar@pj.gob.pe" };
         internal static string[] juecesContrasenas = { "Carlos2026*", "Patricia2026*" };
         internal static string[] juecesNombres = { "Dr. Carlos Mendoza Rojas", "Dra. Patricia Salazar Torres" };
         internal static string[] juecesEspecialidades = { "PENAL", "FAMILIA" };
+
+        // Sube desde bin\Debug hasta la carpeta que contiene el .csproj.
+        // Si el .exe se ejecuta suelto (sin proyecto), usa Datos\ junto al .exe.
+        static string BuscarCarpetaDatos()
+        {
+            var dir = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
+            while (dir != null && dir.GetFiles("*.csproj").Length == 0) dir = dir.Parent;
+            string c = Path.Combine(dir != null ? dir.FullName : AppDomain.CurrentDomain.BaseDirectory, "Datos");
+            Directory.CreateDirectory(c);
+            return c;
+        }
 
         // TEMAS 1 y 2: Funciones y modularidad (utilidades de consola compartidas)
         internal static void Seccion(string nombre)
